@@ -1,0 +1,62 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+
+{% block title %}
+Ads
+{% endblock title %}
+
+{% block content %}
+<h1>Отклики на мои объявления</h1>
+    <hr>
+    <form action="" method="get">
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+    <hr>
+{% if response_to_ad %}
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            table th, table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+            table tr:nth-child(even) {
+                    background-color: #f9f9f9;
+            }
+            table tr:hover {
+                background-color: #f1f1f1;
+            }
+        </style>
+        <table>
+            <tr>
+                <td><b>Автор отклика</b></td>
+                <td><b>Отклик</b></td>
+                <td><b>Объявление</b></td>
+                <td><b>Дата отправки</b></td>
+                <td><b>Статус</b></td>
+            </tr>
+            {% for resp in response_to_ad %}
+            <tr>
+                <td>{{ resp.user_response }}</td>
+                <td>{{ resp.content }}</td>
+                <td>{{ resp.ad_response.title }}</td>
+                <td>{{ resp.date|date:'d M Y' }}</td>
+                <td>{% if resp.is_accepted == False %}
+                    <a class="btn btn-primary" href="{% url 'response_accept' resp.id %}" role="button">Принять</a>
+                    {% endif %}
+                    <a class="btn btn-danger" href="{% url 'resp_delete' resp.id %}" role="button">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3>На ваши объявления пока никто не откликнулся</h3>
+    {% endif %}
+    </div>
+
+{% endblock content %}

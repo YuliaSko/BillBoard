@@ -1,0 +1,64 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+
+{% block title %}
+Ads
+{% endblock title %}
+
+{% block content %}
+<h1>Мои отклики</h1>
+    <hr>
+    <form action="" method="get">
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+    <hr>
+    {% if my_response %}
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            table th, table td {
+                border: 1px solid #ddd; /* Граница между ячейками */
+                padding: 8px;
+            }
+            table tr:nth-child(even) {
+                    background-color: #f9f9f9; /* Фон для четных строк */
+            }
+            table tr:hover {
+                background-color: #f1f1f1; /* Подсветка при наведении */
+            }
+        </style>
+        <table>
+            <tr>
+                <td><b>Объявление</b></td>
+                <td><b>Отклик</b></td>
+                <td><b>Дата отправки</b></td>
+                <td><b>Статус</b></td>
+                <td><b></b></td>
+            </tr>
+            {% for response in my_response %}
+            <tr>
+                <td>{{ response.ad_response.title }}</td>
+                <td>{{ response.content }}</td>
+                <td>{{ response.date|date:'d M Y' }}</td>
+                <td>{% if response.is_accepted == False %}
+                    На рассмотрении
+                    {% else %}
+                    Принят
+                    {% endif %}</td>
+                <td><a class="btn btn-danger" href="{% url 'resp_delete' response.id %}" role="button">Удалить</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3>Вы пока не отправили ни одного отклика </h3>
+    {% endif %}
+    </div>
+
+{% endblock content %}

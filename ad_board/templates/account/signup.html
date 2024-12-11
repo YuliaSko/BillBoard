@@ -1,0 +1,59 @@
+{% extends "main.html" %}
+
+{% block content %}
+<h2>Регистрация</h2>
+<form action="" method="POST">
+    <div class="container-fluid" id="centerLayer">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.errors }}
+        {{ form.as_p }}
+        <!--<table>
+            <tr>
+                <td>Имя пользователя: </td>
+                <td>{{ form.username }}</td>
+            <tr>
+                <td>Электронная почта: </td>
+                <td>{{ form.email }}</td>
+            </tr>
+            <tr>
+                <td>Пароль: </td>
+                <td>{{ form.password1 }}</td>
+            </tr>
+            <tr>
+                <td>Повторите пароль: </td>
+                <td>{{ form.password2 }}</td>
+            </tr>
+        </table>
+        <label for="id_username">Имя пользователя:</label>
+        {{ form.username }}
+        <label for="id_first_name">Имя:</label>
+        {{ form.first_name }}
+        <label for="id_second_name">Фамилия:</label>
+        {{ form.second_name }}
+        <label for="id_email">Email:</label>
+        {{ form.email }}
+        <label for="id_password1">Пароль:</label>
+        {{ form.password1 }}
+        <label for="id_password2">Подтверждение пароля:</label>
+        {{ form.password2 }}-->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <br>
+
+        <input type="submit" value="Зарегистрироваться" class="btn btn-outline-success "/>
+
+        <br>
+        <br>
+        <a href="{% url 'home' %}" >
+            <b>Вернуться на главную</b>
+        </a>
+    </div>
+</form>
+{% endblock %}

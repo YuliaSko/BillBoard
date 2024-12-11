@@ -1,0 +1,65 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Ad
+{% endblock title %}
+
+{% block content %}
+    <h3>{{ ad.title }}</h3>
+    <p>Автор: {{ ad.ad_user }}</p>
+    <p>Дата публикации: {{ ad.date|date:'d M Y' }}</p>
+        <p>Категория:
+            <a href="{% url 'category_list' ad.category %}">{{ ad.get_category_display }}</a>
+    <p>{{ ad.text|safe }}</p>
+    {% if request.user.is_authenticated and request.user != ad.ad_user %}
+                    <a class="btn btn-primary" href="{% url 'response' ad.id %}" role="button">Оставить отклик</a>
+    {% endif %}
+    <hr>
+<h4>Отклики</h4>
+    {% if response %}
+<div style="display: flex; justify-content: center; align-items: center;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            table th, table td {
+                border: 1px solid #ddd; /* Граница между ячейками */
+                padding: 8px;
+            }
+            table tr:nth-child(even) {
+                    background-color: #f9f9f9; /* Фон для четных строк */
+            }
+            table tr:hover {
+                background-color: #f1f1f1; /* Подсветка при наведении */
+            }
+        </style>
+    <ul>
+        <table>
+            <tr>
+                <td><b>Отклик от</b></td>
+                <td><b>Отклик</b></td>
+                <td><b>Дата отправки</b></td>
+                <td><b>Статус</b></td>
+            </tr>
+            {% for resp in response %}
+            <tr>
+                <td>{{ resp.user_response }}</td>
+                <td>{{ resp.content }}</td>
+                <td>{{ resp.date|date:'d M Y' }}</td>
+                <td>{% if resp.is_accepted == False %}
+                    На рассмотрении
+                    {% else %}
+                    Принят
+                    {% endif %}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Откликов пока нет</p>
+    {% endif %}
+    </ul>
+</div>
+
+{% endblock content %}

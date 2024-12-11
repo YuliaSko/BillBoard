@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+
+{% block title %}
+Личный кабинет
+{% endblock title %}
+
+{% block content %}
+<h1>Личный кабинет</h1>
+
+    <p>Привет, {{user.username}}!</p>
+    <p>Email: {{ user.email }}</p>
+
+    <h2>Детали профиля:</h2>
+    <ul>
+        <li>Имя: {{ user.first_name }}</li>
+        <li>Фамилия: {{ user.last_name }}</li>
+        <li>Дата регистрации: {{ user.date_joined }}</li>
+    </ul>

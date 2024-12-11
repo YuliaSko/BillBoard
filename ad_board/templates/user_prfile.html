@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Profile
+{% endblock title %}
+
+{% block content %}
+<h1>Личный аккаунт</h1>
+    <table>
+            <tr>
+                <td><b>Имя пользователя: </b></td>
+                <td>{{ user.username }}</td>
+            <tr>
+                <td><b>Имя: </b></td>
+                <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+                <td><b>Фамилия: </b></td>
+                <td>{{ user.last_name }}</td>
+            </tr>
+            <tr>
+                <td><b>Электронная почта: </b></td>
+                <td>{{ user.email }}</td>
+            </tr>
+
+    </table>
+
+<p><b><a href="{% url 'my_ad' user.id %}">Мои объявления</a></b></p>
+<p><b><a href="{% url 'my_resp' user.id %}">Мои отклики</a></b></p>
+<p><b><a href="{% url 'resp_to_ad' user.id %}">Отклики на мои объявления</a></b></p>
+
+{% endblock content %}

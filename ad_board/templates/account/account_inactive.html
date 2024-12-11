@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+
+{% block head_title %} Активация аккаунта {% endblock %}
+
+{% block content %}
+    <h3>Введите код из письма</h3>
+    <form action="{% url 'activate_account' %}" method="post">
+        {% csrf_token %}
+        <label>
+             <input type="text" class="text" name="code" placeholder="Код активации">
+        </label>
+        <input type="submit" value="Подтвердить">
+    </form>
+{% endblock %}

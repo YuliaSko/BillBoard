@@ -1,0 +1,74 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+
+{% block title %}
+Ads
+{% endblock title %}
+
+{% block content %}
+<h1>Все объявления</h1>
+    {% if ad_list %}
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            table th, table td {
+                border: 1px solid #ddd; /* Граница между ячейками */
+                padding: 8px;
+            }
+            table tr:nth-child(even) {
+                    background-color: #f9f9f9; /* Фон для четных строк */
+            }
+            table tr:hover {
+                background-color: #f1f1f1; /* Подсветка при наведении */
+            }
+        </style>
+        <table>
+            <tr>
+                <td><b>Автор</b></td>
+                <td><b>Категория</b></td>
+                <td><b>Дата публикации</b></td>
+                <td><b>Заголовок</b></td>
+                <td><b>Объявление</b></td>
+                <td><b></b></td>
+            </tr>
+            {% for ad in ad_list %}
+            <tr><td>{{ ad.ad_user }}</td>
+                <td><a href="{% url 'category_list' ad.category %}">{{ ad.get_category_display }}</a></td>
+                <td>{{ ad.date|date:'d M Y' }}</td>
+                <td><a href="{% url 'ad_detail' ad.id %}">{{ ad.title }}</a></td>
+                <td>{{ ad.text|truncatewords:20|safe }}</td>
+                <td>{% if request.user.is_authenticated and request.user != ad.ad_user %}
+                    <a class="btn btn-primary" href="{% url 'response' ad.id %}" role="button">Оставить отклик</a></td>
+                {% endif %}
+            </tr>
+            <hr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3>Объявлений пока нет</h3>
+    {% endif %}
+    </div>
+
+    {% if page_obj.has_previous %}
+        <a href="?{% url_replace page=1 %}">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {{ page_obj.number }}
+
+    {% if page_obj.has_next %}
+        <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock content %}

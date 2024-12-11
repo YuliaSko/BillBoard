@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+
+{% block head_title %} Активация аккаунта {% endblock %}
+
+{% block content %}
+<h3>Неверный код активации</h3>
+<form>
+    <input type="button" onclick="history.back();" class="btn btn-outline-secondary btn-sm"
+            value="Вернуться в вводу кода"/>
+</form>
+
+{% endblock %}
+<!--
+<form method="POST" action="{% url 'resend_code' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-link">Запросить новый код</button>
+</form>
+-->
